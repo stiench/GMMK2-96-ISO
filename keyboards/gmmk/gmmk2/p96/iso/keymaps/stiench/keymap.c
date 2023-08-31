@@ -20,13 +20,15 @@
 #include "sides.h"
 #include "helpers.h"
 
-#define PINK_RGB 128,0,128
-#define PINK_LIGHT 255,0,255
-#define ORANGE_RGB 120,26,0
+#define PINK_LIGHT 255,128,255
 
-#define ARROW_KEY_COLORS ORANGE_RGB
+#define DEFAULT_KEY_COLOR HSV_PURPLE
+#define SIDE_CAPS_LOCK_ON RGB_PINK
+#define SIDE_CAPS_LOCK_OFF RGB_PURPLE
+
+#define ARROW_KEY_COLORS RGB_ORANGE
 #define RESET_KEY_COLORS RGB_RED
-#define RGB_KEY_COLORS RGB_PURPLE
+#define RGB_KEY_COLORS RGB_YELLOW
 #define LAYER_KEY_COLORS RGB_GOLD
 
 int ARROW_KEYS[] =  {83, 95, 96, 97};
@@ -75,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* Keymap _FL: Function Layer
    */
 [_FL] = LAYOUT(
-  QK_BOOT,  KC_BRID,  KC_BRIU,  KC_CALC,  KC_MSEL,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,   _______,  _______,  _______,  _______,  _______,
+  QK_BOOT,  KC_BRID,  KC_BRIU,  KC_CPNL,  KC_MYCM,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,   _______,  _______,  _______,  _______,  _______,
   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,
   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,
   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,             _______,  _______,  _______,
@@ -107,7 +109,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     else {
       rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
     }
-    rgb_matrix_sethsv_noeeprom(HSV_PINK);
+    rgb_matrix_sethsv_noeeprom(DEFAULT_KEY_COLOR);
     return state;
 }
 
@@ -116,15 +118,12 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
   uint8_t layer = biton32(layer_state);
   switch (layer) {
     case 0:
-    //rgb_matrix_set_color_all(PINK_RGB); 
     break;
 
     case 1:
-    //rgb_matrix_set_color_all(PINK_RGB); 
     break;
 
     case 2:
-    //rgb_matrix_set_color_all(PINK_RGB); 
     break;
 
     case 3:
@@ -142,15 +141,15 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
   }
   
   if (is_caps_lock_on()) {
-    RGB_MATRIX_INDICATOR_SET_COLOR(54, 120 ,26 ,0); //capslock key
+    RGB_MATRIX_INDICATOR_SET_COLOR(54, 0xFF, 0x80, 0xBF); //capslock key
   }
 
   if (is_caps_lock_on()) {
-    set_side_color('l', ORANGE_RGB);
-    set_side_color('r', ORANGE_RGB);
+    set_side_color('l', SIDE_CAPS_LOCK_ON);
+    set_side_color('r', SIDE_CAPS_LOCK_ON);
   } else {
-    set_side_color('l', PINK_RGB);
-    set_side_color('r', PINK_RGB);
+    set_side_color('l', SIDE_CAPS_LOCK_OFF);
+    set_side_color('r', SIDE_CAPS_LOCK_OFF);
   }
   return true;
 }
@@ -158,5 +157,4 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
 void keyboard_post_init_user(void) {
   rgblight_enable_noeeprom(); // Enables RGB, without saving settings
   rgblight_set_speed(25);
-  rgblight_sethsv_noeeprom(PINK_LIGHT);
 }
