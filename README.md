@@ -15,3 +15,7 @@ make git-submodule
 ```bash
 qmk compile -kb gmmk/gmmk2/p96/iso -km stiench
 ```
+
+## Credits
+
+based on [https://github.com/skitzo2000/GMMK2-96](https://github.com/skitzo2000/GMMK2-96)
