@@ -30,11 +30,14 @@
 #define RESET_KEY_COLORS RGB_RED
 #define RGB_KEY_COLORS RGB_YELLOW
 #define LAYER_KEY_COLORS RGB_GOLD
+#define NUM_LOCK_KEY_COLORS RGB_GREEN
 
+//See iso.c for codes
 int ARROW_KEYS[] =  {83, 95, 96, 97};
 int RGB_KEYS[]   =  {72, 73, 74, 75};
 int LAYER_KEYS[] =  {84, 85, 98};
 int RESET_KEY    =  49;
+int NUM_LOCK_KEY =  32;
 
 int SIZE_OF_ARROW_KEYS = sizeof(ARROW_KEYS)/sizeof(int);
 int SIZE_OF_RGB_KEYS = sizeof(RGB_KEYS)/sizeof(int);
@@ -78,7 +81,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
 [_FL] = LAYOUT(
   QK_BOOT,  KC_BRID,  KC_BRIU,  KC_CPNL,  KC_MYCM,  RM_VALD,  RM_VALU,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,   _______,  _______,  _______,  _______,  _______,
-  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  KC_NUM,   _______,  _______,  _______,
+  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  KC_NUM,   KC_NUM,   KC_NUM,   KC_NUM,
   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   _______,  _______,  _______,  _______,  _______,
   _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,             _______,  _______,  _______,
   _______,  _______,  RM_HUEU,  RM_HUED,  RM_SPDD,  RM_SPDU,  _______,  _______,  _______,  _______,  _______,  _______,  _______,   RM_VALU,  TO(_1L),  TO(_2L),  _______,  _______,
@@ -142,6 +145,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max)
   
   if (is_caps_lock_on()) {
     RGB_MATRIX_INDICATOR_SET_COLOR(54, 0xFF, 0x80, 0xBF); //capslock key
+  }
+
+  if (host_keyboard_led_state().num_lock) {
+    rgb_matrix_set_color(NUM_LOCK_KEY, NUM_LOCK_KEY_COLORS);
   }
 
   if (is_caps_lock_on()) {
